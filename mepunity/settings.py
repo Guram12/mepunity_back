@@ -294,7 +294,7 @@ SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_REQUIRED = True
-
+ACCOUNT_EMAIL_CONFIRMATION_TEMPLATE = 'accounts/email_confirmation_message.html'
 
 # ================================================== Email settings ==================================================
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -304,6 +304,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '7e080e001@smtp-brevo.com'
 EMAIL_HOST_PASSWORD = 'IjHTdW5JRsbhV1E0'
 DEFAULT_FROM_EMAIL = 'g.nishnianidze97@gmail.com'  
+
+
+ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
 
 
 TEMPLATES = [
