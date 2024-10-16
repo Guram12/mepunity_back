@@ -164,23 +164,43 @@ CORS_ALLOWED_ORIGINS = [
 
 # ================================================== media file settings ==================================================
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+import os
 
 # AWS S3 settings
 AWS_ACCESS_KEY_ID = 'AKIATX3PICNAR3JGAM55'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'mep-unity-bucket'
 AWS_S3_REGION_NAME = 'eu-central-1' 
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None  # Ensure ACLs are not used
+AWS_S3_VERIFY = True
 
-# Static files (CSS, JavaScript, Images)
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Local folder for collectstatic
 
-# Media files
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+# Static and Media settings
+STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/static/'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
 
+
+
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage", 
+        "OPTIONS": {
+            "location": "media",
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage", 
+        "OPTIONS": {
+            "location": "static",
+        },
+    },
+}
+
+# To make sure static files URLs are not signed
+AWS_QUERYSTRING_AUTH = False
 # ==========================================================================================================================
