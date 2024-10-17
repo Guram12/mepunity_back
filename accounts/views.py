@@ -27,6 +27,14 @@ class CustomConfirmEmailView(ConfirmEmailView):
         
 
 
+from dj_rest_auth.registration.views import RegisterView
+from .serializers import CustomRegisterSerializer
+
+class CustomRegisterView(RegisterView):
+    serializer_class = CustomRegisterSerializer
+
+
+
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -34,3 +42,5 @@ class ProfileView(APIView):
         user = request.user
         serializer = AccountSerializer(user)
         return Response(serializer.data)
+    
+
