@@ -5,11 +5,11 @@ from rest_framework_simplejwt.views import (
 )
 from .views import CustomConfirmEmailView
 from allauth.account.views import ConfirmEmailView 
-from .views import ProfileView
+from .views import ProfileView , CustomRegisterView
 
 urlpatterns = [
     path('auth/', include('dj_rest_auth.urls')),
-    path('auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('auth/registration/', CustomRegisterView.as_view(), name='custom_register'),
     path('accounts/', include('allauth.urls')),
     path('auth/profile/', ProfileView.as_view(), name='profile'),
 
