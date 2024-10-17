@@ -1,7 +1,8 @@
 from rest_framework.serializers import ModelSerializer
-from .models import CustomUser
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
+from .models import CustomUser
+
 
 
 
@@ -14,10 +15,6 @@ class AccountSerializer(ModelSerializer):
 
 
 
-
-from dj_rest_auth.registration.serializers import RegisterSerializer
-from rest_framework import serializers
-from .models import CustomUser
 
 class CustomRegisterSerializer(RegisterSerializer):
     company = serializers.CharField(required=True)
