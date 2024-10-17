@@ -5,14 +5,17 @@ from rest_framework_simplejwt.views import (
 )
 from .views import CustomConfirmEmailView
 from allauth.account.views import ConfirmEmailView 
-
+from .views import ProfileView
 
 urlpatterns = [
     path('auth/', include('dj_rest_auth.urls')),
     path('auth/registration/', include('dj_rest_auth.registration.urls')),
     path('accounts/', include('allauth.urls')),
+    path('auth/profile/', ProfileView.as_view(), name='profile'),
 
-    # path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+
+
+    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     re_path(r'^rest-auth/registration/account-confirm-email/(?P<key>[-:\w]+)/$',
             CustomConfirmEmailView.as_view(),
