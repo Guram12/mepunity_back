@@ -1,18 +1,20 @@
 from rest_framework.serializers import ModelSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, Discount
 
-
-
-
+class DiscountSerializer(ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = ['discount']
 
 class AccountSerializer(ModelSerializer):
+    discount = serializers.IntegerField(source='discount.discount', read_only=True)
+
     class Meta:
         model = CustomUser
-        fields = [ "id", "email", "username", "company" ,"phone_number", "discount", "is_email_verified", "image"]
-        read_only_fields = [ "id",'is_email_verified', 'discount']
-
+        fields = ["id", "email", "username", "company", "phone_number", "discount", "is_email_verified", "image"]
+        read_only_fields = ["id", 'is_email_verified', "discount"]
 
 class ProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,12 +38,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.company = self.cleaned_data.get('company')
         user.phone_number = self.cleaned_data.get('phone_number')
         user.save()
+
+        Discount.objects.create(user=user, discount=0)
+
         return user
-
-
-
-
-
-
-
-

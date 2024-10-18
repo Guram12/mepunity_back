@@ -6,7 +6,7 @@ from allauth.account.views import ConfirmEmailView
 from allauth.account.models import EmailConfirmationHMAC
 from django.shortcuts import redirect
 import logging
-from . models import CustomUser
+from .models import CustomUser , Discount
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +32,8 @@ from .serializers import CustomRegisterSerializer , ProfileUpdateSerializer
 
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
+
+
 
 
 
@@ -134,6 +136,10 @@ class CustomGoogleLogin(SocialLoginView):
             'username': username,
             'is_email_verified': True,
         })
+
+        if created:
+            # Create a Discount instance with default value 0
+            Discount.objects.create(user=user, discount=0)
 
         if not created:
             user.is_email_verified = True
