@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',  # Ensure this is before allauth
+    'django.contrib.sites',  #  this should be before allauth
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'dj_rest_auth.registration',
     'dj_rest_auth', 
     'storages',
     'accounts',
@@ -325,3 +327,30 @@ TEMPLATES = [
     },
 ]
 # ==========================================================================================================================
+#=============================================== Google Oauth settings =====================================================
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'CLIENT_ID': '1006633413820-umehv7r3fdj53sf5duud48bcbl7mie3o.apps.googleusercontent.com',
+        'SECRET': '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',
+    }
+}
+
+# Redirect URLs
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# ====================================================================================================================
+
+
+
+
+
+
+

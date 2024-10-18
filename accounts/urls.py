@@ -3,9 +3,8 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import CustomConfirmEmailView
 from allauth.account.views import ConfirmEmailView 
-from .views import ProfileView , CustomRegisterView
+from .views import ProfileView , CustomRegisterView ,CustomConfirmEmailView ,CustomGoogleLogin
 
 urlpatterns = [
     path('auth/', include('dj_rest_auth.urls')),
@@ -13,6 +12,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('auth/profile/', ProfileView.as_view(), name='profile'),
 
+    path('dj-rest-auth/google/', CustomGoogleLogin.as_view(), name='google_login'),
 
 
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
