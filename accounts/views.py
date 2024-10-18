@@ -28,7 +28,7 @@ class CustomConfirmEmailView(ConfirmEmailView):
 
 
 from dj_rest_auth.registration.views import RegisterView
-from .serializers import CustomRegisterSerializer
+from .serializers import CustomRegisterSerializer , ProfileUpdateSerializer
 
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
@@ -45,6 +45,22 @@ class ProfileView(APIView):
     
 
 
+class ProfileUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        serializer = ProfileUpdateSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+
+
+# =================================== Google Login view  =================================== 
 
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
@@ -130,3 +146,12 @@ class CustomGoogleLogin(SocialLoginView):
             username = f"{base_username}_{get_random_string(5)}"
             if not CustomUser.objects.filter(username=username).exists():
                 return username
+            
+# =========================================================================================================
+
+
+
+
+
+
+

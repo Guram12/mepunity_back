@@ -7,7 +7,7 @@ class CustomUser(AbstractUser):
     discount = models.IntegerField(default=0)
     is_email_verified = models.BooleanField(default=False) 
     image = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg')
-    company = models.CharField(max_length=255, blank=True, null=True)
+    company = models.CharField(max_length=255, blank=True, null=True , unique=True)
 
 
     USERNAME_FIELD = 'email'

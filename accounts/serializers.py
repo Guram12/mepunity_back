@@ -14,6 +14,11 @@ class AccountSerializer(ModelSerializer):
         read_only_fields = [ "id",'is_email_verified', 'discount']
 
 
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'company', 'phone_number']
+
 
 
 class CustomRegisterSerializer(RegisterSerializer):
