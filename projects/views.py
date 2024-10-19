@@ -87,14 +87,14 @@ from botocore.exceptions import NoCredentialsError
 @permission_classes([AllowAny])
 def send_file_to_email(request):
     parser_classes = (MultiPartParser, FormParser)
-    file = request.FILES.get('file')
+    files = request.FILES.getlist('files')
     name = request.data.get('name')
     company = request.data.get('company')
     email = request.data.get('email')
     subject = request.data.get('subject', 'No Subject')
     description = request.data.get('description', 'No Description')
 
-    logger.debug(f"File: {file}, Name: {name}, Company: {company}, Email: {email}, Subject: {subject}, Description: {description}")
+    logger.debug(f"Files: {files}, Name: {name}, Company: {company}, Email: {email}, Subject: {subject}, Description: {description}")
 
     if not name:
         return Response({'error': 'Name is required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -104,21 +104,24 @@ def send_file_to_email(request):
         return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        # Upload file to AWS S3
         s3 = boto3.client(
             's3',
             aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
             aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
             region_name=settings.AWS_S3_REGION_NAME
         )
-        s3.upload_fileobj(file, settings.AWS_STORAGE_BUCKET_NAME, file.name)
 
-        # Generate pre-signed URL
-        file_url = s3.generate_presigned_url(
-            'get_object',
-            Params={'Bucket': settings.AWS_STORAGE_BUCKET_NAME, 'Key': file.name},
-            ExpiresIn=3600  # URL expiration time in seconds
-        )
+        file_urls = []
+        for file in files:
+            # Create a folder with the company name and upload files to this folder
+            s3_key = f"media/uploaded_data_sent_email/{company}/{file.name}"
+            s3.upload_fileobj(file, settings.AWS_STORAGE_BUCKET_NAME, s3_key)
+            file_url = s3.generate_presigned_url(
+                'get_object',
+                Params={'Bucket': settings.AWS_STORAGE_BUCKET_NAME, 'Key': s3_key},
+                ExpiresIn=3600
+            )
+            file_urls.append({'file_name': file.name, 'file_url': file_url})
 
         context = {
             'name': name,
@@ -126,9 +129,9 @@ def send_file_to_email(request):
             'email': email,
             'subject': subject,
             'description': description,
-            'file_url': file_url,
+            'file_urls': file_urls,
         }
-        message = render_to_string('accounts/email_template.html', context)  # Ensure you have this template
+        message = render_to_string('accounts/email_template.html', context)
 
         send_mail(
             subject=f"File Upload: {subject}",
@@ -138,7 +141,7 @@ def send_file_to_email(request):
         )
 
         logger.info("Email sent successfully.")
-        return Response({'message': 'File uploaded and email sent successfully'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Files uploaded and email sent successfully'}, status=status.HTTP_200_OK)
     except NoCredentialsError:
         logger.error("AWS credentials not available.")
         return Response({'error': 'AWS credentials not available'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
