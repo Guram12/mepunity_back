@@ -148,3 +148,44 @@ def send_file_to_email(request):
     except Exception as e:
         logger.error(f"Failed to send email: {str(e)}")
         return Response({'error': f'Failed to send email: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+
+
+# ==========================================  project price view  ==========================================
+
+
+from django.http import JsonResponse
+from .models import ProjectService
+from rest_framework.decorators import api_view, permission_classes
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def project_services_list(request):
+    services = ProjectService.objects.all()
+    data = [
+        {   
+            "dtype" : service.dtype,
+            'name_ka': service.name_ka,
+            'name_en': service.name_en,
+            'price_per_sqm': service.price_per_sqm,
+            'discount_percentage': service.discount_percentage,
+        }
+        for service in services
+    ]
+    return JsonResponse(data, safe=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
