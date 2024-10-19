@@ -24,8 +24,12 @@ admin.site.register(Site, SiteAdmin)
 
 # --------------------------------------------------------------
 class DiscountAdmin(admin.ModelAdmin):
-    list_display = ('user', 'discount')
+    list_display = ('user', 'get_company', 'discount')
     fields = ('user', 'discount')
     search_fields = ('user__email',)
+
+    def get_company(self, obj):
+        return obj.user.company if hasattr(obj.user, 'company') else 'No Company'
+    get_company.short_description = 'Company'
 
 admin.site.register(Discount, DiscountAdmin)
