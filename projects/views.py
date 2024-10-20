@@ -166,6 +166,7 @@ def project_services_list(request):
     services = ProjectService.objects.all()
     data = [
         {   
+            'id': service.id,
             "dtype" : service.dtype,
             'name_ka': service.name_ka,
             'name_en': service.name_en,
