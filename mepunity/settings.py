@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from pathlib import Path
+from decouple import config
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -95,24 +97,24 @@ WSGI_APPLICATION = 'mepunity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'mydatabase',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config("DB_NAME"),
+        'USER':config("DB_USER"),
+        'PASSWORD': config("DB_PASSWORD"),
+        'HOST': config("DB_HOST"),
+        'PORT': config("DB_PORT"),
+    }
+}
 
 
 
@@ -152,6 +154,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    "https://krazana.com",
 ]
 
 
@@ -193,19 +196,18 @@ CORS_ALLOWED_ORIGINS = [
 # ================================================== media file settings ==================================================
 
 
-import os
 
 # AWS S3 settings
-AWS_ACCESS_KEY_ID = 'AKIATX3PICNAR3JGAM55'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'mep-unity-bucket'
-AWS_S3_REGION_NAME = 'eu-central-1' 
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME =    config("AWS_S3_REGION_NAME")
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None  # Ensure ACLs are not used
+AWS_DEFAULT_ACL = None 
 AWS_S3_VERIFY = True
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Local folder for collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
 # Static and Media settings
 STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/static/'
@@ -286,13 +288,15 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_CONFIRMATION_TEMPLATE = 'accounts/email_confirmation_message.html'
 
 # ================================================== Email settings ==================================================
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = '7e080e001@smtp-brevo.com'
-EMAIL_HOST_PASSWORD = 'IjHTdW5JRsbhV1E0'
-DEFAULT_FROM_EMAIL = 'g.nishnianidze97@gmail.com'  
 
 
 ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
@@ -324,8 +328,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
-        'CLIENT_ID': '1006633413820-umehv7r3fdj53sf5duud48bcbl7mie3o.apps.googleusercontent.com',
-        'SECRET': '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',
+        'CLIENT_ID': config("GOOGLE_CLIENT_ID"),
+        'SECRET': config("GOOGLE_CLIENT_SECRET"),
     }
 }
 
