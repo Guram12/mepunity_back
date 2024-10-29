@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+   'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -358,3 +359,107 @@ LOGGING = {
         'level': 'DEBUG',
     },
 }
+
+
+# =====================================   setup for  https only =======================
+
+# SECURE_SSL_REDIRECT = True  # Redirects all HTTP requests to HTTPS.
+# SESSION_COOKIE_SECURE = True  # nsures that the session cookie is only sent over HTTPS connections.
+# CSRF_COOKIE_SECURE = True # Ensures the CSRF (Cross-Site Request Forgery) cookie is only sent over HTTPS connections.
+# SECURE_HSTS_SECONDS = 31536000  # 1 year .  Enables HTTP Strict Transport Security (HSTS), telling browsers to only connect to your site over HTTPS.
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Applies HSTS to all subdomains as well.
+# SECURE_HSTS_PRELOAD = True  # Marks the domain for inclusion in browsers' preloaded HSTS lists.
+
+# if not DEBUG:  # Only enable in production
+#     SECURE_SSL_REDIRECT = True
+#     SESSION_COOKIE_SECURE = True
+#     CSRF_COOKIE_SECURE = True
+#     SECURE_HSTS_SECONDS = 31536000  # 1 year
+#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#     SECURE_HSTS_PRELOAD = True
+# else:
+#     # Optional: explicitly set them to False in development
+#     SECURE_SSL_REDIRECT = False
+#     SESSION_COOKIE_SECURE = False
+#     CSRF_COOKIE_SECURE = False
+
+# ================================================  django admin styles ==================================================
+#     SESSION_COOKIE_SECURE = False
+#     CSRF_COOKIE_SECURE = False
+
+# ================================================  django admin styles ==================================================
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Mepunity",
+    "site_header": "My Admin",
+    "site_brand": "MepUnity",
+    "welcome_sign": "Welcome to My Admin",
+    "copyright": "My Company",
+    "search_model": "auth.User",
+    "user_avatar": None,
+    # "site_logo": "https://mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png",  # Direct URL to your logo
+    # "site_logo_classes": "img-circle",
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+        {"app": "books"},
+    ],
+    "usermenu_links": [
+        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+        {"model": "auth.user"}
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": False,
+    "custom_css": None,
+    "custom_js": None,
+    "show_ui_builder": True,
+}
+
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": False,
+    "accent": "accent-primary",
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "cyborg",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}
+
+
+# https://mep-unity-bucket.s3.amazonaws.com/static/https%3A/mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png
+
+# https://mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png
