@@ -370,18 +370,18 @@ LOGGING = {
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Applies HSTS to all subdomains as well.
 # SECURE_HSTS_PRELOAD = True  # Marks the domain for inclusion in browsers' preloaded HSTS lists.
 
-# if not DEBUG:  # Only enable in production
-#     SECURE_SSL_REDIRECT = True
-#     SESSION_COOKIE_SECURE = True
-#     CSRF_COOKIE_SECURE = True
-#     SECURE_HSTS_SECONDS = 31536000  # 1 year
-#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-#     SECURE_HSTS_PRELOAD = True
-# else:
-#     # Optional: explicitly set them to False in development
-#     SECURE_SSL_REDIRECT = False
-#     SESSION_COOKIE_SECURE = False
-#     CSRF_COOKIE_SECURE = False
+if not DEBUG:  # Only enable in production
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+else:
+    # Optional: explicitly set them to False in development
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
 
 # ================================================  django admin styles ==================================================
 #     SESSION_COOKIE_SECURE = False
