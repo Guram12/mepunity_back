@@ -139,7 +139,7 @@ class CustomGoogleLogin(SocialLoginView):
 
         if created:
             # Create a Discount instance with default value 0
-            Discount.objects.create(user=user, discount=0)
+            Discount.objects.create(user=user)
 
         if not created:
             user.is_email_verified = True

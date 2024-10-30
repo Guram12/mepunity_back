@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 
@@ -31,7 +32,8 @@ class ProjectImage(models.Model):
 class ProjectService(models.Model):
     name_ka = models.CharField(max_length=255, unique=True)
     name_en = models.CharField(max_length=255, unique=True)
-    price_per_sqm = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_sqm_below = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_sqm_above= models.DecimalField(max_digits=10, decimal_places=2)
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)
 
     ELECTRICAL = 'electrical'
@@ -47,13 +49,21 @@ class ProjectService(models.Model):
 
 
     def __str__(self):
-        return f"{self.name_ka} - {self.price_per_sqm} - {self.discount_percentage}%"
+        return f"{self.name_ka} - {self.price_per_sqm_below} - {self.price_per_sqm_above} - {self.discount_percentage}%"
 
 
 
 
+class Minimum_Amount_Of_Space(models.Model):
+    space = models.IntegerField()
 
+    def __str__(self):
+        return  f"{self.space} m2"
 
+    def save(self, *args, **kwargs):
+        if not self.pk and Minimum_Amount_Of_Space.objects.exists():
+            raise ValidationError('There can be only one instance of Minimum_Amount_Of_Space')
+        super().save(*args, **kwargs)
 
 
 
