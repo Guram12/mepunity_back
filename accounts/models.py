@@ -22,7 +22,7 @@ from django.conf import settings
 
 class Discount(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    discount = models.IntegerField(default=0)
+    discount = models.IntegerField(default=5)
 
     def __str__(self):
         return f"{self.user.email} - {self.discount}%"

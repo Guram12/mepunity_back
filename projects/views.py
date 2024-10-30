@@ -1,6 +1,5 @@
-from django.shortcuts import render
-from .models import Project
-from .serializers import ProjectSerializer
+from .models import Project , Minimum_Amount_Of_Space
+from .serializers import ProjectSerializer, MinimumSpaceSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 
@@ -24,7 +23,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 
-
+class MinimumSpaceViewSet(viewsets.ModelViewSet):
+    queryset = Minimum_Amount_Of_Space.objects.all()
+    serializer_class = MinimumSpaceSerializer
+    permission_classes = [AllowAny]
 
 
 
@@ -170,19 +172,13 @@ def project_services_list(request):
             "dtype" : service.dtype,
             'name_ka': service.name_ka,
             'name_en': service.name_en,
-            'price_per_sqm': service.price_per_sqm,
+            'price_per_sqm_below': service.price_per_sqm_below,
+            'price_per_sqm_above': service.price_per_sqm_above,
             'discount_percentage': service.discount_percentage,
         }
         for service in services
     ]
     return JsonResponse(data, safe=False)
-
-
-
-
-
-
-
 
 
 
