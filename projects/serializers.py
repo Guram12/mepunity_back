@@ -1,4 +1,4 @@
-from .models import Project, ProjectImage
+from .models import Project, ProjectImage, Minimum_Amount_Of_Space
 from rest_framework import serializers
 
 class ProjectImageSerializer(serializers.ModelSerializer):
@@ -11,4 +11,10 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
+        fields = '__all__'
+
+
+class MinimumSpaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Minimum_Amount_Of_Space
         fields = '__all__'

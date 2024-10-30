@@ -1,12 +1,12 @@
 from django.urls import path , include
 from rest_framework import routers
-from .views import ProjectViewSet , send_file_to_email , project_services_list
+from .views import ProjectViewSet , send_file_to_email , project_services_list , MinimumSpaceViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register('projects', ProjectViewSet)
-
+router.register("minimum-space", MinimumSpaceViewSet)
 
 
 urlpatterns = [
