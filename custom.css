@@ -1,0 +1,5 @@
+.accent-primary .btn-link,
+.accent-primary .nav-tabs .nav-link,
+.accent-primary a:not(.dropdown-item):not(.btn-app):not(.nav-link):not(.brand-link):not(.page-link):not(.btn) {
+    color: rgb(255, 255, 255);
+}
