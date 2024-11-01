@@ -22,6 +22,8 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
         fields = ['username', 'company', 'phone_number']
 
 
+from django.db import IntegrityError
+from rest_framework.exceptions import ValidationError
 
 class CustomRegisterSerializer(RegisterSerializer):
     company = serializers.CharField(required=True)
@@ -34,11 +36,16 @@ class CustomRegisterSerializer(RegisterSerializer):
         return data
 
     def save(self, request):
-        user = super().save(request)
-        user.company = self.cleaned_data.get('company')
-        user.phone_number = self.cleaned_data.get('phone_number')
-        user.save()
+        try:
+            user = super().save(request)
+            user.company = self.cleaned_data.get('company')
+            user.phone_number = self.cleaned_data.get('phone_number')
+            user.save()
 
-        Discount.objects.create(user=user, discount=0)
+            Discount.objects.create(user=user, discount=0)
 
-        return user
+            return user
+        except IntegrityError as e:
+            if 'accounts_customuser_email_key' in str(e):
+                raise ValidationError({'email': 'Email already exists'})
+            raise ValidationError({'detail': 'An error occurred during registration'})
