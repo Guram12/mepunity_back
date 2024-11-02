@@ -370,7 +370,8 @@ LOGGING = {
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Applies HSTS to all subdomains as well.
 # SECURE_HSTS_PRELOAD = True  # Marks the domain for inclusion in browsers' preloaded HSTS lists.
 
-if not DEBUG:  # Only enable in production
+# only enable on production
+if not DEBUG:  
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
