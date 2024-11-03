@@ -342,7 +342,9 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 
-
+# Increase the maximum upload size to 2GB (2 * 1024 * 1024 * 1024 bytes)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024 * 1024  # 2GB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024 * 1024  # 2GB
 
 
 
