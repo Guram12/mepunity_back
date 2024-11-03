@@ -20,7 +20,7 @@ class CustomConfirmEmailView(ConfirmEmailView):
             user = confirmation.email_address.user
             user.is_email_verified = True  
             user.save()
-            return redirect('http://localhost:5173')  # Redirect to frontend login page
+            return redirect('http://localhost:5173?isAuthenticated=false')  # Redirect to frontend login page with query parameter
         else:
             logger.error("Confirmation not found, returning invalid template")
             return redirect('http://localhost:5173/') 
