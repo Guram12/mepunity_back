@@ -83,14 +83,14 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from botocore.exceptions import NoCredentialsError
-import threading
-import time
+# import threading
+# import time
 
 
-def clear_cache_after_delay(delay):
-    time.sleep(delay)
-    cache.set('upload_progress', 0)
-    logger.info("Upload progress cache cleared")
+# def clear_cache_after_delay(delay):
+#     time.sleep(delay)
+#     cache.set('upload_progress', 0)
+#     logger.info("Upload progress cache cleared")
 
 
 @api_view(['POST'])
@@ -115,7 +115,7 @@ def send_file_to_email(request):
             region_name=settings.AWS_S3_REGION_NAME
         )
 
-        total_files = len(files)
+        # total_files = len(files)
         file_urls = []
         for i, file in enumerate(files):
             s3_key = f"media/uploaded_data_sent_email/{company}/{file.name}"
@@ -126,9 +126,9 @@ def send_file_to_email(request):
                 ExpiresIn=3600
             )
             file_urls.append({'file_name': file.name, 'file_url': file_url})
-            progress = ((i + 1) / total_files) * 80  # 80% for file upload
-            cache.set('upload_progress', progress)
-            logger.info(f"Upload progress: {progress}%")
+            # progress = ((i + 1) / total_files) * 80  # 80% for file upload
+            # cache.set('upload_progress', progress)
+            # logger.info(f"Upload progress: {progress}%")
 
         context = {
             'name': name,
@@ -147,11 +147,11 @@ def send_file_to_email(request):
             recipient_list=['g.nishnianidze97@gmail.com'],
         )
 
-        cache.set('upload_progress', 100)  # 100% after email is sent
-        logger.info("Upload progress: 100%")
+        # cache.set('upload_progress', 100)  # 100% after email is sent
+        # logger.info("Upload progress: 100%")
         response = Response({'message': 'Files uploaded and email sent successfully'}, status=status.HTTP_200_OK)
         
-        threading.Thread(target=clear_cache_after_delay, args=(5,)).start()  # 5-second delay
+        # threading.Thread(target=clear_cache_after_delay, args=(5,)).start()  # 5-second delay
         return response
     except NoCredentialsError:
         logger.error("AWS credentials not available.")
@@ -161,12 +161,12 @@ def send_file_to_email(request):
         return Response({'error': f'Failed to send email: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 # --------------------- get upload progress view  ---------------------
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def get_upload_progress(request):
-    progress = cache.get('upload_progress', 0)
-    print(progress)
-    return Response({'progress': progress})
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def get_upload_progress(request):
+#     progress = cache.get('upload_progress', 0)
+#     print(progress)
+#     return Response({'progress': progress})
 
 
 # ==========================================  project price view  ==========================================
