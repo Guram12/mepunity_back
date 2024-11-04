@@ -9,9 +9,10 @@ from rest_framework.decorators import api_view , permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from django.core.cache import cache
 import logging
 
+logger = logging.getLogger(__name__)
 
 
 
@@ -30,47 +31,46 @@ class MinimumSpaceViewSet(viewsets.ModelViewSet):
 
 
 
-logger = logging.getLogger(__name__)
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def send_file_to_email(request):
-    parser_classes = (MultiPartParser, FormParser)
-    file = request.FILES.get('file')
-    name = request.data.get('name')
-    company = request.data.get('company')
-    email = request.data.get('email')
-    subject = request.data.get('subject', 'No Subject')
-    description = request.data.get('description', 'No Description')
+# @api_view(['POST'])
+# @permission_classes([AllowAny])
+# def send_file_to_email(request):
+#     parser_classes = (MultiPartParser, FormParser)
+#     file = request.FILES.get('file')
+#     name = request.data.get('name')
+#     company = request.data.get('company')
+#     email = request.data.get('email')
+#     subject = request.data.get('subject', 'No Subject')
+#     description = request.data.get('description', 'No Description')
 
-    logger.debug(f"File: {file}, Name: {name}, Company: {company}, Email: {email}, Subject: {subject}, Description: {description}")
+#     logger.debug(f"File: {file}, Name: {name}, Company: {company}, Email: {email}, Subject: {subject}, Description: {description}")
 
-    if not name:
-        return Response({'error': 'Name is required'}, status=status.HTTP_400_BAD_REQUEST)
-    if not company:
-        return Response({'error': 'Company is required'}, status=status.HTTP_400_BAD_REQUEST)
-    if not email:
-        return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+#     if not name:
+#         return Response({'error': 'Name is required'}, status=status.HTTP_400_BAD_REQUEST)
+#     if not company:
+#         return Response({'error': 'Company is required'}, status=status.HTTP_400_BAD_REQUEST)
+#     if not email:
+#         return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-    try:
-        email_message = EmailMessage(
-            subject=f"File Upload: {subject}",
-            body=f"Name: {name}\nCompany: {company}\nEmail: {email}\nDescription: {description}",
-            from_email=email,
-            to=['g.nishnianidze97@gmail.com'],
-        )
+#     try:
+#         email_message = EmailMessage(
+#             subject=f"File Upload: {subject}",
+#             body=f"Name: {name}\nCompany: {company}\nEmail: {email}\nDescription: {description}",
+#             from_email=email,
+#             to=['g.nishnianidze97@gmail.com'],
+#         )
 
-        if file:
-            email_message.attach(file.name, file.read(), file.content_type)
-            logger.debug(f"Attached file: {file.name}")
+#         if file:
+#             email_message.attach(file.name, file.read(), file.content_type)
+#             logger.debug(f"Attached file: {file.name}")
 
-        email_message.send()
-        logger.info(f"Email sent: {email_message}")
+#         email_message.send()
+#         logger.info(f"Email sent: {email_message}")
 
-        return Response({'message': 'File uploaded and email sent successfully'}, status=status.HTTP_200_OK)
-    except Exception as e:
-        logger.error(f"Failed to send email: {str(e)}")
-        return Response({'error': f'Failed to send email: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+#         return Response({'message': 'File uploaded and email sent successfully'}, status=status.HTTP_200_OK)
+#     except Exception as e:
+#         logger.error(f"Failed to send email: {str(e)}")
+#         return Response({'error': f'Failed to send email: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 
 
@@ -83,6 +83,14 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from botocore.exceptions import NoCredentialsError
+import threading
+import time
+
+
+def clear_cache_after_delay(delay):
+    time.sleep(delay)
+    cache.set('upload_progress', 0)
+    logger.info("Upload progress cache cleared")
 
 
 @api_view(['POST'])
@@ -96,14 +104,8 @@ def send_file_to_email(request):
     subject = request.data.get('subject', 'No Subject')
     description = request.data.get('description', 'No Description')
 
-    logger.debug(f"Files: {files}, Name: {name}, Company: {company}, Email: {email}, Subject: {subject}, Description: {description}")
-
-    if not name:
-        return Response({'error': 'Name is required'}, status=status.HTTP_400_BAD_REQUEST)
-    if not company:
-        return Response({'error': 'Company is required'}, status=status.HTTP_400_BAD_REQUEST)
-    if not email:
-        return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+    if not name or not company or not email:
+        return Response({'error': 'Name, Company, and Email are required'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         s3 = boto3.client(
@@ -113,9 +115,9 @@ def send_file_to_email(request):
             region_name=settings.AWS_S3_REGION_NAME
         )
 
+        total_files = len(files)
         file_urls = []
-        for file in files:
-            # Create a folder with the company name and upload files to this folder
+        for i, file in enumerate(files):
             s3_key = f"media/uploaded_data_sent_email/{company}/{file.name}"
             s3.upload_fileobj(file, settings.AWS_STORAGE_BUCKET_NAME, s3_key)
             file_url = s3.generate_presigned_url(
@@ -124,6 +126,9 @@ def send_file_to_email(request):
                 ExpiresIn=3600
             )
             file_urls.append({'file_name': file.name, 'file_url': file_url})
+            progress = ((i + 1) / total_files) * 80  # 80% for file upload
+            cache.set('upload_progress', progress)
+            logger.info(f"Upload progress: {progress}%")
 
         context = {
             'name': name,
@@ -142,16 +147,26 @@ def send_file_to_email(request):
             recipient_list=['g.nishnianidze97@gmail.com'],
         )
 
-        logger.info("Email sent successfully.")
-        return Response({'message': 'Files uploaded and email sent successfully'}, status=status.HTTP_200_OK)
+        cache.set('upload_progress', 100)  # 100% after email is sent
+        logger.info("Upload progress: 100%")
+        response = Response({'message': 'Files uploaded and email sent successfully'}, status=status.HTTP_200_OK)
+        
+        threading.Thread(target=clear_cache_after_delay, args=(5,)).start()  # 5-second delay
+        return response
     except NoCredentialsError:
         logger.error("AWS credentials not available.")
         return Response({'error': 'AWS credentials not available'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
         logger.error(f"Failed to send email: {str(e)}")
         return Response({'error': f'Failed to send email: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+# --------------------- get upload progress view  ---------------------
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_upload_progress(request):
+    progress = cache.get('upload_progress', 0)
+    print(progress)
+    return Response({'progress': progress})
 
 
 # ==========================================  project price view  ==========================================
