@@ -134,7 +134,7 @@ def send_file_to_email(request):
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=['g.nishnianidze97@gmail.com'],
         )
-
+        logger.info(f"Email sent=>>>>>>>>>>>>>>>>>>>>: {email}")
         response = Response({'message': 'Files uploaded and email sent successfully'}, status=status.HTTP_200_OK)
         
         return response
