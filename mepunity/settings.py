@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yq5hb8)-%u*z(m1*&+8l)=xg(h9-&7doa1i603*!$^-$r0cg*g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -365,6 +365,13 @@ LOGGING = {
         'level': 'DEBUG',
     },
 }
+
+# ====================================== for password reset ======================================
+if not DEBUG:
+    FRONTEND_URL = 'https://mepunity.com'  
+else:
+    FRONTEND_URL = 'http://localhost:5173'
+    
 
 
 # =====================================   setup for  https only =======================

@@ -5,7 +5,8 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView
 )
 from allauth.account.views import ConfirmEmailView 
-from .views import ProfileView , CustomRegisterView ,CustomConfirmEmailView ,CustomGoogleLogin , ProfileUpdateView
+from .views import ProfileView , CustomRegisterView ,CustomConfirmEmailView ,CustomGoogleLogin , ProfileUpdateView \
+    , PasswordResetRequestView , PasswordResetConfirmView
 
 urlpatterns = [
     path('auth/', include('dj_rest_auth.urls')),
@@ -23,4 +24,8 @@ urlpatterns = [
     re_path(r'^rest-auth/registration/account-confirm-email/(?P<key>[-:\w]+)/$',
             CustomConfirmEmailView.as_view(),
             name='account_confirm_email'),
+
+    # password reset urls 
+    path('auth/password-reset/', PasswordResetRequestView.as_view(), name='password_reset_request'),
+    path('auth/password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
