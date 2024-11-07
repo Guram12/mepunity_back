@@ -16,11 +16,25 @@ class AccountSerializer(ModelSerializer):
         fields = ["id", "email", "username", "company", "phone_number", "discount", "is_email_verified", "image"]
         read_only_fields = ["id", 'is_email_verified', "discount"]
 
-class ProfileUpdateSerializer(serializers.ModelSerializer):
+class ProfileFinishSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['username', 'company', 'phone_number']
 
+
+# ============================= profile update  serializer =====================================
+
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'phone_number', 'is_email_verified', 'image', 'company', 'first_name', 'last_name', 'username']
+
+
+
+
+
+# ============================= Custom Register Serializer ==============================
 
 from django.db import IntegrityError
 from rest_framework.exceptions import ValidationError

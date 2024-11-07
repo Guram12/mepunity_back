@@ -28,7 +28,7 @@ class CustomConfirmEmailView(ConfirmEmailView):
 
 
 from dj_rest_auth.registration.views import RegisterView
-from .serializers import CustomRegisterSerializer , ProfileUpdateSerializer
+from .serializers import CustomRegisterSerializer , ProfileFinishSerializer , ProfileUpdateSerializer
 
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
@@ -47,6 +47,29 @@ class ProfileView(APIView):
     
 
 
+class ProfileFinishView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        serializer = ProfileFinishSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+# ========================================= profle update view =====================================
+
+
+
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import ProfileUpdateSerializer
+
 class ProfileUpdateView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -57,7 +80,12 @@ class ProfileUpdateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
+
+
+
+
+
 
 # ===================================  password reset ===================================
 
