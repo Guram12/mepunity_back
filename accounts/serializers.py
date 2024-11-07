@@ -33,7 +33,28 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 
 
 
+# =================================== Custom login serializer ====================================
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+from .models import CustomUser
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.user
+
+        if not user.is_email_verified:
+            print(f"User {user.email} tried to log in without verifying email.")
+            raise ValidationError({'email': 'Email is not verified. Please check your email to verify your account.'})
+
+        refresh = self.get_token(self.user)
+
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+
+        return data
 # ============================= Custom Register Serializer ==============================
 
 from django.db import IntegrityError

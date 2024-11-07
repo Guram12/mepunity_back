@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import (
 )
 from allauth.account.views import ConfirmEmailView 
 from .views import ProfileView , CustomRegisterView ,CustomConfirmEmailView ,CustomGoogleLogin , ProfileFinishView \
-    , PasswordResetRequestView , PasswordResetConfirmView , ProfileUpdateView
+    , PasswordResetRequestView , PasswordResetConfirmView , ProfileUpdateView , CustomTokenObtainPairView
 
 urlpatterns = [
     path('auth/', include('dj_rest_auth.urls')),
@@ -20,7 +20,7 @@ urlpatterns = [
     path('dj-rest-auth/google/', CustomGoogleLogin.as_view(), name='google_login'),
 
 
-    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'), 
     re_path(r'^rest-auth/registration/account-confirm-email/(?P<key>[-:\w]+)/$',
