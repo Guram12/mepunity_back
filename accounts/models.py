@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     is_email_verified = models.BooleanField(default=False) 
-    image = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg')
+    image = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     company = models.CharField(max_length=255, blank=True, null=True , unique=True)
 
 
