@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yq5hb8)-%u*z(m1*&+8l)=xg(h9-&7doa1i603*!$^-$r0cg*g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -214,7 +214,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/static/'
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
 
-
+# https://mep-unity-bucket.s3.amazonaws.com/static/https%3A/mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png
 
 
 STORAGES = {
@@ -404,15 +404,15 @@ else:
 # ================================================  django admin styles ==================================================
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Mepunity",
-    "site_header": "My Admin",
+    "site_title": "MepUnity admin",
+    "site_header": "MepUnity admin",
     "site_brand": "MepUnity",
-    "welcome_sign": "Welcome to My Admin",
+    "welcome_sign": "Welcome to MepUnity admin",
     "copyright": "My Company",
     "search_model": "auth.User",
     "user_avatar": None,
-    # "site_logo": "https://mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png",  # Direct URL to your logo
-    # "site_logo_classes": "img-circle",
+    "site_logo": "company_logo/mepunity_logo.png",  # Correct URL to your logo
+    "site_logo_classes": "img-circle",
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "auth.User"},
@@ -439,7 +439,6 @@ JAZZMIN_SETTINGS = {
     "custom_js": None,
     "show_ui_builder": True,
 }
-
 
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
@@ -474,6 +473,6 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 
-# https://mep-unity-bucket.s3.amazonaws.com/static/https%3A/mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png
-
 # https://mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png
+
+# https://mep-unity-bucket.s3.amazonaws.com/static/https%3A/mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png
