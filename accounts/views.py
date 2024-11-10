@@ -47,6 +47,8 @@ class ProfileView(APIView):
     
 
 
+from rest_framework import status
+
 class ProfileFinishView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -56,9 +58,13 @@ class ProfileFinishView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-
+        else:
+            errors = serializer.errors
+            if 'username' in errors:
+                errors['username'] = ['This username is already taken.']
+            if 'company_name' in errors:
+                errors['company_name'] = ['This company name is already taken.']
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
 # ===================================== custom login view =====================================
 

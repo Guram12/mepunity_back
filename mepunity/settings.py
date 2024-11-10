@@ -346,11 +346,7 @@ LOGOUT_REDIRECT_URL = '/'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024 * 1024  # 2GB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024 * 1024  # 2GB
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-#     }
-# }
+
 
 LOGGING = {
     'version': 1,
@@ -380,12 +376,6 @@ else:
 
 # =====================================   setup for  https only =======================
 
-# SECURE_SSL_REDIRECT = True  # Redirects all HTTP requests to HTTPS.
-# SESSION_COOKIE_SECURE = True  # nsures that the session cookie is only sent over HTTPS connections.
-# CSRF_COOKIE_SECURE = True # Ensures the CSRF (Cross-Site Request Forgery) cookie is only sent over HTTPS connections.
-# SECURE_HSTS_SECONDS = 31536000  # 1 year .  Enables HTTP Strict Transport Security (HSTS), telling browsers to only connect to your site over HTTPS.
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Applies HSTS to all subdomains as well.
-# SECURE_HSTS_PRELOAD = True  # Marks the domain for inclusion in browsers' preloaded HSTS lists.
 
 # only enable on production
 if not DEBUG:  
@@ -401,9 +391,6 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
 
-# ================================================  django admin styles ==================================================
-#     SESSION_COOKIE_SECURE = False
-#     CSRF_COOKIE_SECURE = False
 
 # ================================================  django admin styles ==================================================
 
@@ -476,7 +463,3 @@ JAZZMIN_UI_TWEAKS = {
     }
 }
 
-
-# https://mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png
-
-# https://mep-unity-bucket.s3.amazonaws.com/static/https%3A/mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png

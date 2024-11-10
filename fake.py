@@ -43,4 +43,4 @@ def create_fake_projects(n):
                 )
                 project_image.save()
 
-create_fake_projects(10)
+create_fake_projects(50)
