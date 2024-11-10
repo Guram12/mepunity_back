@@ -2,6 +2,14 @@ import os
 import random
 from faker import Faker
 from django.core.files import File
+from django.core.exceptions import ImproperlyConfigured
+
+# Ensure settings are configured
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mepunity.settings')
+
+import django
+django.setup()
+
 from projects.models import Project, ProjectImage  # Adjust the import according to your app name
 
 # Initialize Faker

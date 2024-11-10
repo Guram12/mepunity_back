@@ -130,3 +130,4 @@ venv/
 venv
 db.json
 images
+django.log
