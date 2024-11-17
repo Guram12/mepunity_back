@@ -7,7 +7,6 @@ from rest_framework_simplejwt.views import (
 from allauth.account.views import ConfirmEmailView 
 from .views import ProfileView , CustomRegisterView ,CustomConfirmEmailView ,CustomGoogleLogin , ProfileFinishView \
     , PasswordResetRequestView , PasswordResetConfirmView , ProfileUpdateView , CustomTokenObtainPairView 
-    # ,GoogleOneTapLoginView
 
 urlpatterns = [
     path('auth/', include('dj_rest_auth.urls')),
@@ -19,7 +18,6 @@ urlpatterns = [
 
 
     path('dj-rest-auth/google/', CustomGoogleLogin.as_view(), name='google_login'),
-    # path('dj-rest-auth/google/one-tap/', GoogleOneTapLoginView.as_view(), name='google_one_tap_login'),
 
     path('auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
