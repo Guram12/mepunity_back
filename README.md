@@ -1,7 +1,6 @@
 # MepUnity Backend
 
-This is the backend application for MepUnity, a company specializing in electrical, mechanical, and plumbing projects. The backend is built using Django and Django REST Framework, and it provides APIs for managing projects, user authentication, and other related functionalities.
-
+This is the backend application for MepUnity, a company specializing in electrical, mechanical, and plumbing projects. The backend is built using Django and Django REST Framework, and it provides APIs for managing projects, user authentication, and other related functionalities. The admin panel is customized using Django Jazzmin.
 
 
 ## Installation
@@ -127,3 +126,9 @@ The application supports sending emails using the SMTP settings configured in th
 ## Static and Media Files
 
 Static and media files are served using AWS S3. Ensure that your AWS credentials and bucket settings are correctly configured in the .env file.
+
+## Admin Panel
+
+The admin panel is customized using Django Jazzmin. Django Jazzmin provides a modern and responsive interface for the Django admin panel.
+
+To access the admin panel, navigate to /admin/ and log in with the superuser credentials.
