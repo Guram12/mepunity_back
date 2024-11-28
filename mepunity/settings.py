@@ -31,8 +31,8 @@ SECRET_KEY = 'django-insecure-yq5hb8)-%u*z(m1*&+8l)=xg(h9-&7doa1i603*!$^-$r0cg*g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
-
+# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["www.mepunity.com", "mepunity.com"]
 
 # Application definition
 
@@ -402,7 +402,7 @@ JAZZMIN_SETTINGS = {
     "copyright": "My Company",
     "search_model": "auth.User",
     "user_avatar": None,
-    "site_logo": "company_logo/mepunity_logo.png",  # Correct URL to your logo
+    "site_logo": "company_logo/mepunity_logo.png", 
     "site_logo_classes": "img-circle",
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
