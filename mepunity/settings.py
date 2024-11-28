@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-yq5hb8)-%u*z(m1*&+8l)=xg(h9-&7doa1i603*!$^-$r0cg*g
 DEBUG = False
 
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["www.mepunity.com", "mepunity.com"]
+ALLOWED_HOSTS = ["www.mepunity.com", "mepunity.com", 'www.api.mepunity.com', 'api.mepunity.com']
 
 # Application definition
 
