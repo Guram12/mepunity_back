@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
-import os
 import boto3
 from django.conf import settings
 import logging
