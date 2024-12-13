@@ -165,9 +165,6 @@ class PasswordResetConfirmView(APIView):
 
 
 
-
-
-
 # =================================== Google Login view  =================================== 
 
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
