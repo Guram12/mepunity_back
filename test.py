@@ -1,4 +1,7 @@
 import boto3
+from django.conf import settings
+import os
+
 
 session = boto3.Session(
     aws_access_key_id='AKIATX3PICNAR3JGAM55',
@@ -8,5 +11,11 @@ session = boto3.Session(
 
 s3 = session.resource('s3')
 bucket = s3.Bucket('mep-unity-bucket')
-for obj in bucket.objects.all():
-    print(obj.key)
+
+
+# for obj in bucket.objects.all():
+#     print(obj.key)
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mepunity.settings')
+
+print(settings.FRONTEND_URL)
+
