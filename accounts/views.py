@@ -1,3 +1,9 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mepunity.settings')
+
+import django
+django.setup()
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +13,9 @@ from allauth.account.models import EmailConfirmationHMAC
 from django.shortcuts import redirect
 import logging
 from .models import CustomUser , Discount
+from django.conf import settings
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -20,13 +29,12 @@ class CustomConfirmEmailView(ConfirmEmailView):
             user = confirmation.email_address.user
             user.is_email_verified = True  
             user.save()
-            return redirect('http://localhost:5173?isAuthenticated=false')  # Redirect to frontend login page with query parameter
+            # Redirect to frontend login page with query parameter
+            return redirect(f'{settings.FRONTEND_URL}?isAuthenticated=false')  
         else:
             logger.error("Confirmation not found, returning invalid template")
-            return redirect('http://localhost:5173/') 
+            return redirect(f'{settings.FRONTEND_URL}') 
         
-
-
 from dj_rest_auth.registration.views import RegisterView
 from .serializers import CustomRegisterSerializer , ProfileFinishSerializer , ProfileUpdateSerializer
 

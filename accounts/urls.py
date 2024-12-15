@@ -3,7 +3,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-from allauth.account.views import ConfirmEmailView 
 from .views import ProfileView , CustomRegisterView ,CustomConfirmEmailView ,CustomGoogleLogin , ProfileFinishView \
     , PasswordResetRequestView , PasswordResetConfirmView , ProfileUpdateView , CustomTokenObtainPairView 
 
@@ -21,6 +20,8 @@ urlpatterns = [
     path('auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'), 
+
+    # custom email confirm endpoint
     re_path(r'^rest-auth/registration/account-confirm-email/(?P<key>[-:\w]+)/$',
             CustomConfirmEmailView.as_view(),
             name='account_confirm_email'),
