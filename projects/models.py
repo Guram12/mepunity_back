@@ -32,8 +32,12 @@ class ProjectImage(models.Model):
 class ProjectService(models.Model):
     name_ka = models.CharField(max_length=255, unique=True)
     name_en = models.CharField(max_length=255, unique=True)
-    price_per_sqm_below = models.DecimalField(max_digits=10, decimal_places=2)
-    price_per_sqm_above= models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_sqm_below_hotel = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_sqm_above_hotel = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_sqm_below_residential = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_sqm_above_residential = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_sqm_below_enterprise = models.DecimalField(max_digits=10, decimal_places=2)
+    price_per_sqm_above_enterprise = models.DecimalField(max_digits=10, decimal_places=2)
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)
 
     ELECTRICAL = 'electrical'
@@ -49,7 +53,7 @@ class ProjectService(models.Model):
 
 
     def __str__(self):
-        return f"{self.name_ka} - {self.price_per_sqm_below} - {self.price_per_sqm_above} - {self.discount_percentage}%"
+        return f"{self.name_ka} - {self.price_per_sqm_below_hotel} - {self.price_per_sqm_above_hotel} - {self.discount_percentage}%"
 
 
 

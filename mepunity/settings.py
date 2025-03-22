@@ -29,10 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yq5hb8)-%u*z(m1*&+8l)=xg(h9-&7doa1i603*!$^-$r0cg*g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-# ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["www.mepunity.com", "mepunity.com", 'www.api.mepunity.com', 'api.mepunity.com']
+ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["www.mepunity.com", "mepunity.com", 'www.api.mepunity.com', 'api.mepunity.com']
 
 # Application definition
 
@@ -348,26 +348,26 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024 * 1024  # 2GB
 
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        # 'file': {
-        #     'class': 'logging.FileHandler',
-        #     'filename': os.path.join(BASE_DIR, 'django.log'),
-        # },
-    },
-    'root': {
-        'handlers': [
-                    'console'
-                    # ,'file'
-                     ],
-        'level': 'DEBUG',
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#         # 'file': {
+#         #     'class': 'logging.FileHandler',
+#         #     'filename': os.path.join(BASE_DIR, 'django.log'),
+#         # },
+#     },
+#     'root': {
+#         'handlers': [
+#                     'console'
+#                     # ,'file'
+#                      ],
+#         'level': 'DEBUG',
+#     },
+# }
 
 # ====================================== for password reset ======================================
 if not DEBUG:
@@ -380,19 +380,26 @@ else:
 # =====================================   setup for  https only =======================
 
 
-# only enable on production
-if not DEBUG:  
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-else:
-    # Optional: explicitly set them to False in development
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
+# # only enable on production
+# if not DEBUG:  
+#     SECURE_SSL_REDIRECT = True
+#     SESSION_COOKIE_SECURE = True
+#     CSRF_COOKIE_SECURE = True
+#     SECURE_HSTS_SECONDS = 31536000  # 1 year
+#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#     SECURE_HSTS_PRELOAD = True
+# else:
+#     # Optional: explicitly set them to False in development
+#     SECURE_SSL_REDIRECT = False
+#     SESSION_COOKIE_SECURE = False
+#     CSRF_COOKIE_SECURE = False
+
+
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
+
 
 
 # ================================================  django admin styles ==================================================

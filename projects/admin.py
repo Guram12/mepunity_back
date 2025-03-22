@@ -17,7 +17,7 @@ admin.site.register(Project, ProjectAdmin)
 
 @admin.register(ProjectService)
 class ProjectServiceAdmin(admin.ModelAdmin):
-    list_display = ('name_ka',"name_en" , 'price_per_sqm_below', 'price_per_sqm_above', 'discount_percentage' , "dtype")
+    list_display = ('name_ka', 'name_en', 'price_per_sqm_below_hotel', 'price_per_sqm_above_hotel', 'discount_percentage', 'dtype')
 
 
 # ===============================================  project price admin  ==========================================
