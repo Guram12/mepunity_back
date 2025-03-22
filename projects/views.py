@@ -115,12 +115,19 @@ def project_services_list(request):
             "dtype" : service.dtype,
             'name_ka': service.name_ka,
             'name_en': service.name_en,
-            'price_per_sqm_below': service.price_per_sqm_below,
-            'price_per_sqm_above': service.price_per_sqm_above,
+            'price_per_sqm_below_hotel': service.price_per_sqm_below_hotel,
+            'price_per_sqm_above_hotel': service.price_per_sqm_above_hotel,
+
+            'price_per_sqm_below_residential': service.price_per_sqm_below_residential,
+            'price_per_sqm_above_residential': service.price_per_sqm_above_residential,
+
+            'price_per_sqm_below_enterprise': service.price_per_sqm_below_enterprise,
+            'price_per_sqm_above_enterprise': service.price_per_sqm_above_enterprise,
+
+
             'discount_percentage': service.discount_percentage,
         }
         for service in services
     ]
     return JsonResponse(data, safe=False)
-
 

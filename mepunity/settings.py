@@ -348,26 +348,26 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024 * 1024  # 2GB
 
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        # 'file': {
-        #     'class': 'logging.FileHandler',
-        #     'filename': os.path.join(BASE_DIR, 'django.log'),
-        # },
-    },
-    'root': {
-        'handlers': [
-                    'console'
-                    # ,'file'
-                     ],
-        'level': 'DEBUG',
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#         # 'file': {
+#         #     'class': 'logging.FileHandler',
+#         #     'filename': os.path.join(BASE_DIR, 'django.log'),
+#         # },
+#     },
+#     'root': {
+#         'handlers': [
+#                     'console'
+#                     # ,'file'
+#                      ],
+#         'level': 'DEBUG',
+#     },
+# }
 
 # ====================================== for password reset ======================================
 if not DEBUG:
@@ -380,7 +380,7 @@ else:
 # =====================================   setup for  https only =======================
 
 
-# only enable on production
+# # only enable on production
 if not DEBUG:  
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
@@ -393,6 +393,9 @@ else:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+
+
+
 
 
 # ================================================  django admin styles ==================================================
