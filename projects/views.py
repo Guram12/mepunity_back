@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    queryset = Project.objects.all()
+    queryset = Project.objects.all().order_by('-priority') 
     serializer_class = ProjectSerializer
     permission_classes = [AllowAny]
 

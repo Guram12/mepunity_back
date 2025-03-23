@@ -11,7 +11,8 @@ class ProjectImageInline(admin.TabularInline):
 
 class ProjectAdmin(admin.ModelAdmin):
     inlines = [ProjectImageInline]
-
+    list_display = ('title_ka', 'title_en', 'priority')
+    
 admin.site.register(Project, ProjectAdmin)
 
 
