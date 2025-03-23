@@ -8,6 +8,7 @@ class Project(models.Model):
     title_en = models.CharField(max_length=100)
     description_ka = models.TextField(max_length=3000 )
     description_en = models.TextField(max_length=3000 )
+    priority = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title_ka
