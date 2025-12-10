@@ -1,7 +1,9 @@
+
 # fly.toml app configuration file generated for mepunity-back on 2025-12-10T13:41:43Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
+
 
 app = 'mepunity-back'
 primary_region = 'fra'
@@ -27,12 +29,11 @@ console_command = '/code/manage.py shell'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 1024
 
 [[statics]]
-  guest_path = "/code/staticfiles"  
+  guest_path = "/code/staticfiles"
   url_prefix = '/static/'
 
 [mounts]
-  source = "staticfiles"
-  destination = "/code/staticfiles"
+  source = "media_data"
+  destination = "/code/media"
