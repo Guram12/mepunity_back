@@ -19,3 +19,6 @@ RUN pip install --upgrade pip && \
 COPY . /code
 
 CMD ["gunicorn", "mepunity.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120"]
+
+COPY release.sh /code/release.sh
+RUN chmod +x /code/release.sh
