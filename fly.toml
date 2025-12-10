@@ -1,16 +1,12 @@
-# fly.toml app configuration file generated for mepunity-back on 2025-12-10T16:09:00Z
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
 app = 'mepunity-back'
 primary_region = 'fra'
 console_command = '/code/manage.py shell'
 
 [build]
 
+# ←←← ONLY ONE [deploy] section allowed ←←←
 [deploy]
-  release_command = 'python manage.py collectstatic --noinput && python manage.py migrate --noinput'
+  release_command = "sh -c 'python manage.py collectstatic --noinput && python manage.py migrate --noinput'"
 
 [env]
   PORT = '8000'
@@ -36,6 +32,3 @@ console_command = '/code/manage.py shell'
 [[mounts]]
   source = 'media_vol'
   destination = '/code/media'
-
-[deploy]
-  release_command = "/code/release.sh"
