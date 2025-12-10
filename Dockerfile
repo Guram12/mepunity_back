@@ -20,5 +20,10 @@ RUN pip install --upgrade pip && \
 # Copy project
 COPY . /code
 
-# Use Gunicorn in production (runserver is only for local dev)
-CMD ["gunicorn", "mepunity.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Collect static files during build
+# Set a dummy SECRET_KEY for collectstatic
+ENV SECRET_KEY="dummy-key-for-collectstatic"
+RUN python manage.py collectstatic --noinput --clear
+
+# Use Gunicorn in production
+CMD ["gunicorn", "mepunity.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120"]

@@ -195,43 +195,15 @@ CORS_ALLOWED_ORIGINS = [
 # ================================================== media file settings ==================================================
 
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# AWS S3 settings
-AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME =    config("AWS_S3_REGION_NAME")
-AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None 
-AWS_S3_VERIFY = True
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
-
-# Static and Media settings
-STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/static/'
-MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
-
-# https://mep-unity-bucket.s3.amazonaws.com/static/https%3A/mep-unity-bucket.s3.eu-central-1.amazonaws.com/media/company_logo/mepunity_logo.png
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage", 
-        "OPTIONS": {
-            "location": "media",
-        },
-    },
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage", 
-        "OPTIONS": {
-            "location": "static",
-        },
-    },
-}
 
-# To make sure static files URLs are not signed
-AWS_QUERYSTRING_AUTH = False
+
 # ==========================================================================================================================
 # ======================================       auth  settings      =========================================================
 
