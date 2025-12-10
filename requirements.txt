@@ -6,6 +6,7 @@ certifi==2024.8.30
 cffi==1.17.1
 charset-normalizer==3.4.0
 cryptography==43.0.1
+dj-database-url==3.0.1
 dj-rest-auth==6.0.0
 Django==5.1.2
 django-allauth==65.0.2
