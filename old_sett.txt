@@ -32,16 +32,8 @@ SECRET_KEY = 'django-insecure-yq5hb8)-%u*z(m1*&+8l)=xg(h9-&7doa1i603*!$^-$r0cg*g
 DEBUG = False
 
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = [
-    "www.mepunity.com",
-    "mepunity.com",
-    "www.api.mepunity.com",
-    "api.mepunity.com",
-    # ← Fly.io domain (this is mandatory!)
-    ".fly.dev",           # allows any-app-name.fly.dev
-    "localhost",
-    "127.0.0.1",
-]
+ALLOWED_HOSTS = ["www.mepunity.com", "mepunity.com", 'www.api.mepunity.com', 'api.mepunity.com']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -103,15 +95,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mepunity.wsgi.application'
 
 
-# ────────────────────────────── NEW DATABASE CONFIG ──────────────────────────────
-import dj_database_url
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config("DB_NAME"),
+        'USER':config("DB_USER"),
+        'PASSWORD': config("DB_PASSWORD"),
+        'HOST': config("DB_HOST"),
+        'PORT': config("DB_PORT"),
+    }
 }
+
 
 
 # Password validation
@@ -151,7 +156,6 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
     "https://mepunity.com",
-    "https://*.fly.dev",
 ]
 
 
