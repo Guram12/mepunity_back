@@ -202,7 +202,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+os.chmod(MEDIA_ROOT, 0o755)  # Readable/writable for Django/Fly
 
 # ==========================================================================================================================
 # ======================================       auth  settings      =========================================================
