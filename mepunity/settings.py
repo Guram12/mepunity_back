@@ -108,12 +108,25 @@ WSGI_APPLICATION = 'mepunity.wsgi.application'
 # ────────────────────────────── NEW DATABASE CONFIG ──────────────────────────────
 import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
-}
+if DEBUG:
+    # Local development: use SQLite or local Postgres
+    DATABASES = {
+        'default': dj_database_url.config(
+            default='sqlite:///db.sqlite3',
+            conn_max_age=600,
+        )
+    }
+else:
+    # Production: use Fly.io database
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+
+
+# --------------------------------------------------------------------------------------------
 
 
 # Password validation
@@ -154,6 +167,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     "https://mepunity.com",
     "https://*.fly.dev",
+    "https://res.cloudinary.com", 
 ]
 
 
@@ -381,12 +395,11 @@ JAZZMIN_SETTINGS = {
     "copyright": "My Company",
     "search_model": "auth.User",
     "user_avatar": None,
-    "site_logo": "company_logo/mepunity_logo.png", 
+    "site_logo": "/static/images/mepunity_logo.png",
     "site_logo_classes": "img-circle",
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "auth.User"},
-        {"app": "books"},
     ],
     "usermenu_links": [
         {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
@@ -396,7 +409,7 @@ JAZZMIN_SETTINGS = {
     "navigation_expanded": True,
     "hide_apps": [],
     "hide_models": [],
-    "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
+    "order_with_respect_to": ["auth"],
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
