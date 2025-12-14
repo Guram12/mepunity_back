@@ -213,12 +213,15 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+#  mounted volume on Fly.io, local folder for development
+if not DEBUG:
+    MEDIA_ROOT = '/code/media'  # Fly.io mounted volume
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local development
 
 os.makedirs(MEDIA_ROOT, exist_ok=True)
-os.chmod(MEDIA_ROOT, 0o755)  # Readable/writable for Django/Fly
-
+os.chmod(MEDIA_ROOT, 0o755)
 # ==========================================================================================================================
 # ======================================       auth  settings      =========================================================
 
