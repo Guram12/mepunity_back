@@ -21,7 +21,6 @@ class ProfileFinishSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['username', 'company', 'phone_number']
 
-
 # ============================= profile update  serializer =====================================
 
 

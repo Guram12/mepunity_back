@@ -16,7 +16,6 @@ from .models import CustomUser , Discount
 from django.conf import settings
 
 
-
 logger = logging.getLogger(__name__)
 
 class CustomConfirmEmailView(ConfirmEmailView):
@@ -104,10 +103,6 @@ class ProfileUpdateView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
 
 
 
