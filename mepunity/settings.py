@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-yq5hb8)-%u*z(m1*&+8l)=xg(h9-&7doa1i603*!$^-$r0cg*g'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -39,10 +39,9 @@ ALLOWED_HOSTS = [
     "mepunity.com",
     "www.api.mepunity.com",
     "api.mepunity.com",
-    # ← Fly.io domain (this is mandatory!)
-    ".fly.dev",           # allows any-app-name.fly.dev
     "localhost",
     "127.0.0.1",
+
 ]
 # Application definition
 
@@ -54,7 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',  #  this should be before allauth
+    'django.contrib.sites', 
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -67,6 +66,8 @@ INSTALLED_APPS = [
     'dj_rest_auth', 
     'accounts',
     'projects',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 
@@ -90,25 +91,26 @@ WSGI_APPLICATION = 'mepunity.wsgi.application'
 
 
 # ────────────────────────────── NEW DATABASE CONFIG ──────────────────────────────
+# ────────────────────────────── DATABASE CONFIG ──────────────────────────────
 import dj_database_url
 
 if DEBUG:
-    # Local development: use SQLite or local Postgres
+    # Local development: use SQLite
     DATABASES = {
-        'default': dj_database_url.config(
-            default='sqlite:///db.sqlite3',
-            conn_max_age=600,
-        )
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 else:
-    # Production: use Fly.io database
+    # Production on Hetzner: use PostgreSQL via DATABASE_URL env var
     DATABASES = {
         'default': dj_database_url.config(
+            default=config('DATABASE_URL'),
             conn_max_age=600,
             conn_health_checks=True,
         )
     }
-
 
 # --------------------------------------------------------------------------------------------
 
@@ -194,7 +196,6 @@ CORS_ALLOWED_ORIGINS = [
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = '/media/'
 
 #  mounted volume on Fly.io, local folder for development
 if not DEBUG:
@@ -204,6 +205,19 @@ else:
 
 os.makedirs(MEDIA_ROOT, exist_ok=True)
 os.chmod(MEDIA_ROOT, 0o755)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
+
+
+MEDIA_URL = '/media/'
+
 # ==========================================================================================================================
 # ======================================       auth  settings      =========================================================
 
@@ -365,6 +379,7 @@ else:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+
 
 
 
