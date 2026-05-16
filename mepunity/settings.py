@@ -45,7 +45,7 @@ ALLOWED_HOSTS = [
     "api.mepunity.com",
     "localhost",
     "127.0.0.1",
-
+    "138.201.154.24"
 ]
 # Application definition
 
