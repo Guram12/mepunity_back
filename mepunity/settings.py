@@ -201,17 +201,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
-#  mounted volume on Fly.io, local folder for development
-if not DEBUG:
-    MEDIA_ROOT = '/code/media'  # Fly.io mounted volume
-else:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local development
-
-os.makedirs(MEDIA_ROOT, exist_ok=True)
-os.chmod(MEDIA_ROOT, 0o755)
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
@@ -219,6 +208,14 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': env('CLOUDINARY_API_SECRET'),
 }
 
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 MEDIA_URL = '/media/'
 
